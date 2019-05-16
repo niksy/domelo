@@ -28,6 +28,11 @@
     "test:automated:watch": "npm run test:automated -- --auto-watch --no-single-run",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
+  "dependencies": {
+    "trim-left": "1.0.1",
+    "trim-newlines": "3.0.0",
+    "trim-right": "1.0.1"
+  },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",

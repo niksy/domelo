@@ -1,3 +1,7 @@
+import trimLeft from 'trim-left';
+import trimRight from 'trim-right';
+import trimNewlines, { start as trimNewlinesStart, end as trimNewlinesEnd } from 'trim-newlines';
+
 /**
  * Element returned when converting string to DOM node.
  *
@@ -14,7 +18,11 @@ const NODE_TAG_MATCH = /<\s*\w.*?>/g;
  * @return {string}
  */
 function html ( literals, ...substs ) {
-	return literals.raw.reduce(( acc, lit, i ) => {
+	const raws = [...literals.raw];
+	const rawsLength = raws.length;
+	raws[0] = trimLeft(trimNewlinesStart(raws[0]));
+	raws[rawsLength-1] = trimRight(trimNewlinesEnd(raws[rawsLength-1]));
+	return raws.reduce(( acc, lit, i ) => {
 		let subst = substs[i - 1];
 		if ( Array.isArray(subst) ) {
 			subst = subst.join('');
@@ -98,7 +106,7 @@ function template ( ...args ) {
  * @return {ElementFromString}
  */
 export default ( rawString ) => {
-	const string = rawString;
+	const string = trimNewlines(rawString).trim();
 	return createDomElement(string);
 };
 

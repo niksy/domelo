@@ -17,6 +17,9 @@ it('should return DOM element when using function', function () {
 	const node4 = fn('<legend id="henry"><span><b>cash</b></span></legend>');
 	const node5 = fn('sydney');
 	const node6 = () => fn('<div>katie</div><p>athena</p>');
+	const node7 = fn(`
+		<div class="becky" data-cali="elvis">${'gizmo'}</div>
+	`);
 
 	const selector1 = 'div.becky[data-cali="elvis"]';
 	const content1 = 'gizmo';
@@ -44,11 +47,17 @@ it('should return DOM element when using function', function () {
 
 	assert.throws(() => node6(), /Only one root element is allowed/);
 
+	const selector7 = 'div.becky[data-cali="elvis"]';
+	const content7 = 'gizmo';
+	assert.ok(node7.matches(selector7), `Element doesn’t match selector ${selector7}`);
+	assert.equal(node7.textContent.trim(), content7, `Element doesn’t have content "${content7}"`);
+
 	node1.remove();
 	node2.remove();
 	node3.remove();
 	node4.remove();
 	node5.remove();
+	node7.remove();
 
 });
 
@@ -60,6 +69,9 @@ it('should return DOM element when using tagged templates', function () {
 	const node4 = html`<legend id="henry"><span><b>cash</b></span></legend>`;
 	const node5 = html`sydney`;
 	const node6 = () => html`<div>katie</div><p>athena</p>`;
+	const node7 = html`
+		<div class="becky" data-cali="elvis">${'gizmo'}</div>
+	`;
 
 	const selector1 = 'div.becky[data-cali="elvis"]';
 	const content1 = 'gizmo';
@@ -87,10 +99,16 @@ it('should return DOM element when using tagged templates', function () {
 
 	assert.throws(() => node6(), /Only one root element is allowed/);
 
+	const selector7 = 'div.becky[data-cali="elvis"]';
+	const content7 = 'gizmo';
+	assert.ok(node7.matches(selector7), `Element doesn’t match selector ${selector7}`);
+	assert.equal(node7.textContent.trim(), content7, `Element doesn’t have content "${content7}"`);
+
 	node1.remove();
 	node2.remove();
 	node3.remove();
 	node4.remove();
 	node5.remove();
+	node7.remove();
 
 });

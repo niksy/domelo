@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Fixed
+
+- Trim whitespace from start and end of input
+
 ## [1.0.0][] - 2019-03-27
 
 ### Added
