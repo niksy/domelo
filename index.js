@@ -1,6 +1,9 @@
 import trimLeft from 'trim-left';
 import trimRight from 'trim-right';
-import trimNewlines, { start as trimNewlinesStart, end as trimNewlinesEnd } from 'trim-newlines';
+import trimNewlines, {
+	start as trimNewlinesStart,
+	end as trimNewlinesEnd
+} from 'trim-newlines';
 
 /**
  * Element returned when converting string to DOM node.
@@ -15,16 +18,16 @@ const NODE_TAG_MATCH = /<\s*\w.*?>/g;
  * @param  {Object} literals
  * @param  {Array} substs
  *
- * @return {string}
+ * @returns {string}
  */
-function html ( literals, ...substs ) {
+function html(literals, ...substs) {
 	const raws = [...literals.raw];
 	const rawsLength = raws.length;
 	raws[0] = trimLeft(trimNewlinesStart(raws[0]));
-	raws[rawsLength-1] = trimRight(trimNewlinesEnd(raws[rawsLength-1]));
-	return raws.reduce(( acc, lit, i ) => {
+	raws[rawsLength - 1] = trimRight(trimNewlinesEnd(raws[rawsLength - 1]));
+	return raws.reduce((acc, lit, i) => {
 		let subst = substs[i - 1];
-		if ( Array.isArray(subst) ) {
+		if (Array.isArray(subst)) {
 			subst = subst.join('');
 		}
 		return acc + subst + lit;
@@ -34,40 +37,42 @@ function html ( literals, ...substs ) {
 /**
  * @param  {string} string
  *
- * @return {ElementFromString}
+ * @returns {ElementFromString}
  */
-function createDomElement ( string ) {
-
+function createDomElement(string) {
 	const wrapMap = {
-		option: [ 1, '<select multiple="multiple">', '</select>' ],
-		legend: [ 1, '<fieldset>', '</fieldset>' ],
-		area: [ 1, '<map>', '</map>' ],
-		param: [ 1, '<object>', '</object>' ],
-		thead: [ 1, '<table>', '</table>' ],
-		tr: [ 2, '<table><tbody>', '</tbody></table>' ],
-		col: [ 2, '<table><tbody></tbody><colgroup>', '</colgroup></table>' ],
-		td: [ 3, '<table><tbody><tr>', '</tr></tbody></table>' ],
-		_default: [ 0, '', '' ]
+		option: [1, '<select multiple="multiple">', '</select>'],
+		legend: [1, '<fieldset>', '</fieldset>'],
+		area: [1, '<map>', '</map>'],
+		param: [1, '<object>', '</object>'],
+		thead: [1, '<table>', '</table>'],
+		tr: [2, '<table><tbody>', '</tbody></table>'],
+		col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
+		td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],
+		_default: [0, '', '']
 	};
 
 	wrapMap.optgroup = wrapMap.option;
-	wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
+	wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption =
+		wrapMap.thead;
 	wrapMap.th = wrapMap.td;
 
 	let element = document.createElement('div');
 	const match = NODE_TAG_MATCH.exec(string);
 	NODE_TAG_MATCH.lastIndex = 0;
 
-	if ( match !== null ) {
-
-		const tag = (RTAGNAME.exec(match[0]) || [ wrapMap._default[1], wrapMap._default[2] ])[1].toLowerCase();
+	if (match !== null) {
+		const tag = (RTAGNAME.exec(match[0]) || [
+			wrapMap._default[1],
+			wrapMap._default[2]
+		])[1].toLowerCase();
 		const wrap = wrapMap[tag] || wrapMap._default;
 
 		element.innerHTML = wrap[1] + string + wrap[2];
 
 		// Descend through wrappers to the right content
 		let counter = wrap[0] + 1;
-		while ( counter-- ) {
+		while (counter--) {
 			element = element.lastChild;
 			if (
 				counter === 0 &&
@@ -78,34 +83,31 @@ function createDomElement ( string ) {
 			}
 		}
 
-	// If only text is passed
+		// If only text is passed
 	} else {
-
 		element.innerHTML = string;
 		element = element.lastChild;
-
 	}
 
 	return element;
-
 }
 
 /**
- * @param  {Array} args
+ * @param  {Array} templateArguments
  *
- * @return {ElementFromString}
+ * @returns {ElementFromString}
  */
-function template ( ...args ) {
-	const string = html(...args);
+function template(...templateArguments) {
+	const string = html(...templateArguments);
 	return createDomElement(string);
 }
 
 /**
  * @param  {string} rawString
  *
- * @return {ElementFromString}
+ * @returns {ElementFromString}
  */
-export default ( rawString ) => {
+export default (rawString) => {
 	const string = trimNewlines(rawString).trim();
 	return createDomElement(string);
 };
