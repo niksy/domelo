@@ -1,6 +1,6 @@
 {
   "name": "domelo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create DOM element from string.",
   "main": "index.cjs.js",
   "module": "index.esm.js",

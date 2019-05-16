@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [1.0.1][] - 2019-05-16
+
 ### Fixed
 
 -   Trim whitespace from start and end of input
@@ -14,3 +16,7 @@
 
 [unreleased]: https://github.com/niksy/domelo/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/niksy/domelo/tree/v1.0.0
+
+
+[Unreleased]: https://github.com/niksy/domelo/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/niksy/domelo/tree/v1.0.1
