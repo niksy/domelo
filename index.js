@@ -1,6 +1,6 @@
 import trimLeft from 'trim-left';
 import trimRight from 'trim-right';
-import trimNewlines, {
+import {
 	start as trimNewlinesStart,
 	end as trimNewlinesEnd
 } from 'trim-newlines';
@@ -108,7 +108,7 @@ function template(...templateArguments) {
  * @returns {ElementFromString}
  */
 export default (rawString) => {
-	const string = trimNewlines(rawString).trim();
+	const string = trimNewlinesEnd(trimNewlinesStart(rawString)).trim();
 	return createDomElement(string);
 };
 

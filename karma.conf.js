@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const nodeBuiltins = require('rollup-plugin-node-builtins');
@@ -10,10 +9,6 @@ const babel = require('rollup-plugin-babel');
 const istanbul = require('rollup-plugin-istanbul');
 const polyfill = require('rollup-plugin-polyfill');
 const rollupConfig = require('./rollup.config');
-
-const babelrc = JSON.parse(
-	fs.readFileSync(path.resolve(__dirname, '.babelrc'), 'utf8')
-);
 
 let config;
 
@@ -120,17 +115,13 @@ module.exports = function(baseConfig) {
 							preferBuiltins: true
 						}),
 						commonjs(),
-						babel(
-							Object.assign(
-								{
-									include:
-										'node_modules/{has-flag,supports-color}/**',
-									runtimeHelpers: true,
-									babelrc: false
-								},
-								babelrc
-							)
-						),
+						babel({
+							include:
+								'node_modules/{has-flag,supports-color}/**',
+							runtimeHelpers: true,
+							babelrc: false,
+							configFile: path.resolve(__dirname, '.babelrc')
+						}),
 						globals(),
 						...rollupConfig.plugins.filter(
 							({ name }) => !['babel'].includes(name)
