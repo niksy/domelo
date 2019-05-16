@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [1.0.2][] - 2019-05-16
+
 ### Fixed
 
 -   Tests in IE9
@@ -22,3 +24,7 @@
 [unreleased]: https://github.com/niksy/domelo/compare/v1.0.1...HEAD
 [1.0.0]: https://github.com/niksy/domelo/tree/v1.0.0
 [1.0.1]: https://github.com/niksy/domelo/tree/v1.0.1
+
+
+[Unreleased]: https://github.com/niksy/domelo/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/niksy/domelo/tree/v1.0.2
