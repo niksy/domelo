@@ -61,32 +61,32 @@ function createDomElement(string) {
 	const match = NODE_TAG_MATCH.exec(string);
 	NODE_TAG_MATCH.lastIndex = 0;
 
-	if (match !== null) {
-		const tag = (RTAGNAME.exec(match[0]) || [
-			wrapMap._default[1],
-			wrapMap._default[2]
-		])[1].toLowerCase();
-		const wrap = wrapMap[tag] || wrapMap._default;
-
-		element.innerHTML = wrap[1] + string + wrap[2];
-
-		// Descend through wrappers to the right content
-		let counter = wrap[0] + 1;
-		while (counter--) {
-			element = element.lastChild;
-			if (
-				counter === 0 &&
-				element.parentNode &&
-				element.parentNode.childNodes.length > 1
-			) {
-				throw new Error('Only one root element is allowed.');
-			}
-		}
-
-		// If only text is passed
-	} else {
+	// If only text is passed
+	if (match === null) {
 		element.innerHTML = string;
 		element = element.lastChild;
+		return element;
+	}
+
+	const tag = (RTAGNAME.exec(match[0]) || [
+		wrapMap._default[1],
+		wrapMap._default[2]
+	])[1].toLowerCase();
+	const wrap = wrapMap[tag] || wrapMap._default;
+
+	element.innerHTML = wrap[1] + string + wrap[2];
+
+	// Descend through wrappers to the right content
+	let counter = wrap[0] + 1;
+	while (counter--) {
+		element = element.lastChild;
+		if (
+			counter === 0 &&
+			element.parentNode &&
+			element.parentNode.childNodes.length > 1
+		) {
+			throw new Error('Only one root element is allowed.');
+		}
 	}
 
 	return element;
