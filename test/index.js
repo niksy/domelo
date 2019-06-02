@@ -219,3 +219,16 @@ it('should return DOM element when using spaces at start and end', function() {
 	functionNode.remove();
 	templateNode.remove();
 });
+
+it('should return document fragment when requested', function () {
+	/* eslint-disable prettier/prettier */
+	const functionNode = fn(`
+		<!-- fragment -->
+		<div>foo</div>
+		bar
+		<span>baz</span>
+	`);
+	/* eslint-enable */
+
+	console.log([].slice.call(functionNode.childNodes).length);
+});

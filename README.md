@@ -10,6 +10,7 @@ Features:
 -   Function or tagged template literal implementation
 -   Handles elements which need specific parent element (e.g. `td` needs `table`
     element)
+-   Supports multiple root elements by returning `DocumentFragment`
 
 ## Install
 
@@ -26,6 +27,11 @@ const div = domelo('<div id="becky" data-rocco="sammy">zoe</div>'); // Returns d
 const span = html`
 	<p id="harley"><b class="misty">chester</b></p>
 `; // Returns p element
+const fragment = html`
+	<!-- fragment -->
+	<strong>tucker</strong>
+	<i>ruby</i>
+`; // Returns document fragment which contains 2 children nodes
 ```
 
 Tagged template implementation is here so you can easily make
@@ -38,10 +44,13 @@ strings inside `html` template function as HTML markup.
 
 ### domelo(string)
 
-Returns: `(HTMLElement|Text)`
+Returns: `(HTMLElement|Text|DocumentFragment)`
 
-Creates DOM element from string. Returns `Node` which can be `HTMLElement` or
-`Text`.
+Creates DOM element from string. Returns `Node` which can be `HTMLElement`,
+`Text` or `DocumentFragment`.
+
+`DocumentFragment` is returned when you provide special `fragment` comment at
+start. This is useful if you want to return multiple root nodes.
 
 #### string
 

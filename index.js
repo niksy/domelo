@@ -80,11 +80,22 @@ function createDomElement(string) {
 	let counter = wrap[0] + 1;
 	while (counter--) {
 		element = element.lastChild;
-		if (
-			counter === 0 &&
-			element.parentNode &&
-			element.parentNode.childNodes.length > 1
-		) {
+		const parentNode = element.parentNode;
+		if (counter === 0 && parentNode && parentNode.childNodes.length > 1) {
+			// If document fragment is requested
+			if (
+				parentNode.firstChild.nodeType === Node.COMMENT_NODE &&
+				parentNode.firstChild.textContent.trim() === 'fragment'
+			) {
+				const fragment = document.createDocumentFragment();
+				const nodes = [].slice.call(parentNode.childNodes);
+				nodes.shift();
+				nodes.forEach((node) => {
+					fragment.appendChild(node);
+				});
+				element = fragment;
+				return element;
+			}
 			throw new Error('Only one root element is allowed.');
 		}
 	}
