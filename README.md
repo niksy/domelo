@@ -50,6 +50,16 @@ Type: `string`
 HTML string to convert to DOM element. Whitespace and newlines are trimmed from
 start and end of HTML string.
 
+## FAQ
+
+### How are non-textual interpolations handled?
+
+You need to explictly return string-like value to get proper content shown:
+
+* For `HTMLElement` return `outerHTML` property value
+* For `Text` return `wholeText` property value
+* Arrays should be joined at least with empty string
+
 ## Browser support
 
 Tested in IE9+ and all modern browsers, assuming
