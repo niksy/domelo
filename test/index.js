@@ -1,17 +1,17 @@
 import assert from 'assert';
-import fn, { html } from '../index';
+import function_, { html } from '../index';
 
-before(function() {
+before(function () {
 	window.fixture.load('/test/fixtures/index.html');
 });
 
-after(function() {
+after(function () {
 	window.fixture.cleanup();
 });
 
-it('should return DOM element', function() {
+it('should return DOM element', function () {
 	/* eslint-disable prettier/prettier */
-	const functionNode = fn('<div class="becky" data-cali="elvis">gizmo</div>');
+	const functionNode = function_('<div class="becky" data-cali="elvis">gizmo</div>');
 	const templateNode = html`<div class="becky" data-cali="elvis">gizmo</div>`;
 	/* eslint-enable */
 
@@ -42,9 +42,9 @@ it('should return DOM element', function() {
 	templateNode.remove();
 });
 
-it('should return table cell element', function() {
+it('should return table cell element', function () {
 	/* eslint-disable prettier/prettier */
-	const functionNode = fn('<td id="rocky" data-molly="cleo" louie="coco">sassy</td>');
+	const functionNode = function_('<td id="rocky" data-molly="cleo" louie="coco">sassy</td>');
 	const templateNode = html`<td id="rocky" data-molly="cleo" louie="coco">sassy</td>`;
 	/* eslint-enable */
 
@@ -75,9 +75,9 @@ it('should return table cell element', function() {
 	templateNode.remove();
 });
 
-it('should return option element', function() {
+it('should return option element', function () {
 	/* eslint-disable prettier/prettier */
-	const functionNode = fn('<option value="josie">penny</option>');
+	const functionNode = function_('<option value="josie">penny</option>');
 	const templateNode = html`<option value="josie">penny</option>`;
 	/* eslint-enable */
 
@@ -108,9 +108,9 @@ it('should return option element', function() {
 	templateNode.remove();
 });
 
-it('should return DOM element with multiple children DOM elements', function() {
+it('should return DOM element with multiple children DOM elements', function () {
 	/* eslint-disable prettier/prettier */
-	const functionNode = fn('<legend id="henry"><span><b>cash</b></span></legend>');
+	const functionNode = function_('<legend id="henry"><span><b>cash</b></span></legend>');
 	const templateNode = html`<legend id="henry"><span><b>cash</b></span></legend>`;
 	/* eslint-enable */
 
@@ -141,9 +141,9 @@ it('should return DOM element with multiple children DOM elements', function() {
 	templateNode.remove();
 });
 
-it('should return text content as root node', function() {
+it('should return text content as root node', function () {
 	/* eslint-disable prettier/prettier */
-	const functionNode = fn('sydney');
+	const functionNode = function_('sydney');
 	const templateNode = html`sydney`;
 	/* eslint-enable */
 
@@ -173,9 +173,9 @@ it('should return text content as root node', function() {
 	templateNode.remove();
 });
 
-it('should throw if multiple root elements are provided', function() {
+it('should throw if multiple root elements are provided', function () {
 	/* eslint-disable prettier/prettier */
-	const functioNode = () => fn('<div>katie</div><p>athena</p>');
+	const functioNode = () => function_('<div>katie</div><p>athena</p>');
 	const templateNode = () => html`<div>katie</div><p>athena</p>`;
 	/* eslint-enable */
 
@@ -183,9 +183,9 @@ it('should throw if multiple root elements are provided', function() {
 	assert.throws(() => templateNode(), /Only one root element is allowed/);
 });
 
-it('should return DOM element when using spaces at start and end', function() {
+it('should return DOM element when using spaces at start and end', function () {
 	/* eslint-disable prettier/prettier */
-	const functionNode = fn(`
+	const functionNode = function_(`
 		<div class="becky" data-cali="elvis">${'gizmo'}</div>
 	`);
 	const templateNode = html`

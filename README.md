@@ -23,9 +23,7 @@ npm install domelo --save
 import domelo, { html } from 'domelo';
 
 const div = domelo('<div id="becky" data-rocco="sammy">zoe</div>'); // Returns div element
-const span = html`
-	<p id="harley"><b class="misty">chester</b></p>
-`; // Returns p element
+const span = html` <p id="harley"><b class="misty">chester</b></p> `; // Returns p element
 ```
 
 Tagged template implementation is here so you can easily make
@@ -56,14 +54,15 @@ start and end of HTML string.
 
 You need to explictly return string-like value to get proper content shown:
 
-* For `HTMLElement` return `outerHTML` property value
-* For `Text` return `wholeText` property value
-* Arrays should be joined at least with empty string
+-   For `HTMLElement` return `outerHTML` property value
+-   For `Text` return `wholeText` property value
+-   Arrays should be joined at least with empty string
 
 ## Browser support
 
-Tested in IE9+ and all modern browsers, assuming
-[tagged templates are transpiled](https://babeljs.io/docs/en/babel-plugin-transform-template-literals).
+Tested in Edge 15, Chrome 72 and Firefox 65, and should work in all modern
+browsers
+([support based on Browserslist configuration](https://browserslist.dev/?q=bGFzdCAzIG1ham9yIHZlcnNpb25zLCBzaW5jZSAyMDE5LCBlZGdlID49IDE1LCBub3QgaWUgPiAw)).
 
 ## Test
 

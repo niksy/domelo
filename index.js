@@ -11,11 +11,12 @@ import {
  * @typedef {(HTMLElement|Text)} ElementFromString
  */
 
+/* eslint-disable-next-line unicorn/better-regex */
 const RTAGNAME = /<([a-z][^\/\0>\x20\t\r\n\f]*)/i;
 const NODE_TAG_MATCH = /<\s*\w.*?>/g;
 
 /**
- * @param  {Object} literals
+ * @param  {object} literals
  * @param  {Array} substs
  *
  * @returns {string}
@@ -25,12 +26,12 @@ function html(literals, ...substs) {
 	const rawsLength = raws.length;
 	raws[0] = trimLeft(trimNewlinesStart(raws[0]));
 	raws[rawsLength - 1] = trimRight(trimNewlinesEnd(raws[rawsLength - 1]));
-	return raws.reduce((acc, lit, i) => {
-		let subst = substs[i - 1];
+	return raws.reduce((accumulator, lit, index) => {
+		let subst = substs[index - 1];
 		if (Array.isArray(subst)) {
 			subst = subst.join('');
 		}
-		return acc + subst + lit;
+		return accumulator + subst + lit;
 	});
 }
 
