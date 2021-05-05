@@ -4,8 +4,6 @@
  * @typedef {(HTMLElement|Text)} ElementFromString
  */
 
-const NODE_TAG_MATCH = /<\s*\w.*?>/g;
-
 /**
  * @param  {object} literals
  * @param  {Array} substs
@@ -35,14 +33,11 @@ function html(literals, ...substs) {
 function createDomElement(string) {
 	let element = document.createElement('template');
 
-	const match = NODE_TAG_MATCH.exec(string);
-	NODE_TAG_MATCH.lastIndex = 0;
-
 	element.innerHTML = string;
 	const output = element.content;
 
 	// If only text is passed
-	if (match === null) {
+	if (output.children.length === 0) {
 		return output.lastChild;
 	}
 
