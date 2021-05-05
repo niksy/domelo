@@ -244,30 +244,40 @@ it('should return fragment if requested', function () {
 		'Not an instance of DocumentFragment'
 	);
 
+	const functionNodeChildNodes = [].slice.call(functionNode.childNodes);
+	const templateNodeChildNodes = [].slice.call(templateNode.childNodes);
+
+	const functionNodeChildren =
+		functionNode.children ??
+		functionNodeChildNodes.filter((node) => node instanceof Element);
+	const templateNodeChildren =
+		templateNode.children ??
+		templateNodeChildNodes.filter((node) => node instanceof Element);
+
 	assert.ok(
-		functionNode.children[1].matches(selector),
+		functionNodeChildren[1].matches(selector),
 		`Last element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		functionNode.children[1].textContent.trim(),
+		functionNodeChildren[1].textContent.trim(),
 		content,
 		`Last element doesn’t have content "${content}"`
 	);
 
 	assert.ok(
-		templateNode.children[1].matches(selector),
+		templateNodeChildren[1].matches(selector),
 		`Last element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		templateNode.children[1].textContent.trim(),
+		templateNodeChildren[1].textContent.trim(),
 		content,
 		`Last element doesn’t have content "${content}"`
 	);
 
-	[].slice.call(functionNode.children).forEach((element) => {
+	[].slice.call(functionNodeChildren).forEach((element) => {
 		element.remove();
 	});
-	[].slice.call(templateNode.children).forEach((element) => {
+	[].slice.call(templateNodeChildren).forEach((element) => {
 		element.remove();
 	});
 });

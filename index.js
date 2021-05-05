@@ -42,16 +42,24 @@ function createDomElement(string, outputFragment = false) {
 		return output;
 	}
 
+	const childNodes = [].slice.call(output.childNodes);
+
+	const children =
+		output.children ?? childNodes.filter((node) => node instanceof Element);
+	const lastChild =
+		output.lastChild ?? childNodes[childNodes.length - 1] ?? null;
+	const firstElementChild = output.firstElementChild ?? children[0] ?? null;
+
 	// If only text is passed
-	if (output.children.length === 0) {
-		return output.lastChild;
+	if (children.length === 0) {
+		return lastChild;
 	}
 
-	if (output.children.length > 1) {
+	if (children.length > 1) {
 		throw new Error('Only one root element is allowed.');
 	}
 
-	return output.firstElementChild;
+	return firstElementChild;
 }
 
 /**
