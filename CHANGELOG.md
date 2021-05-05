@@ -2,6 +2,20 @@
 
 ## [Unreleased][]
 
+### Added
+
+-   Support for returning fragments
+
+### Changed
+
+-   Update dependencies
+-   Use HTML `template` element
+
+### Removed
+
+-   **Breaking**: Drop IE support, supported browser is Edge 15+
+-   Newline and string trimming
+
 ## [1.0.2][] - 2019-05-16
 
 ### Fixed
@@ -21,10 +35,10 @@
 
 -   Initial implementation
 
-[unreleased]: https://github.com/niksy/domelo/compare/v1.0.1...HEAD
+<!-- prettier-ignore-start -->
+
 [1.0.0]: https://github.com/niksy/domelo/tree/v1.0.0
 [1.0.1]: https://github.com/niksy/domelo/tree/v1.0.1
-
-
-[Unreleased]: https://github.com/niksy/domelo/compare/v1.0.2...HEAD
 [1.0.2]: https://github.com/niksy/domelo/tree/v1.0.2
+
+<!-- prettier-ignore-end -->
