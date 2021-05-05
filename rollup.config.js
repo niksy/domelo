@@ -6,14 +6,6 @@ const { default: babel } = require('@rollup/plugin-babel');
 const { default: resolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 
-const transpileDependencies = babel({
-	include: 'node_modules/trim-newlines/**',
-	babelHelpers: process.env.BABEL_ENV === 'test' ? 'runtime' : 'bundled',
-	babelrc: false,
-	configFile: path.resolve(__dirname, '.babelrc')
-});
-transpileDependencies.name = 'babel-transpileDependencies';
-
 module.exports = {
 	input: 'index.js',
 	output: [
@@ -60,7 +52,6 @@ module.exports = {
 			babelHelpers: 'bundled',
 			exclude: 'node_modules/**'
 		}),
-		transpileDependencies,
 		resolve(),
 		commonjs()
 	]

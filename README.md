@@ -45,8 +45,7 @@ Creates DOM element from string. Returns `Node` which can be `HTMLElement` or
 
 Type: `string`
 
-HTML string to convert to DOM element. Whitespace and newlines are trimmed from
-start and end of HTML string.
+HTML string to convert to DOM element.
 
 ## FAQ
 

@@ -36,11 +36,6 @@
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md",
     "module-check": "node -e 'require(\"domelo\");' && node --input-type=module -e 'import \"domelo\";'"
   },
-  "dependencies": {
-    "trim-left": "1.0.1",
-    "trim-newlines": "3.0.0",
-    "trim-right": "1.0.1"
-  },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
