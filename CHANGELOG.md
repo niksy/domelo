@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [2.0.0][] - 2021-05-05
+
 ### Added
 
 -   Support for returning fragments
@@ -42,3 +44,6 @@
 [1.0.2]: https://github.com/niksy/domelo/tree/v1.0.2
 
 <!-- prettier-ignore-end -->
+
+[unreleased]: https://github.com/niksy/domelo/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/niksy/domelo/tree/v2.0.0
