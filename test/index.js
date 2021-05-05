@@ -1,5 +1,5 @@
 import assert from 'assert';
-import function_, { html } from '../index';
+import function_, { html, fragment } from '../index';
 
 before(function () {
 	window.fixture.load('/test/fixtures/index.html');
@@ -218,4 +218,56 @@ it('should return DOM element when using spaces at start and end', function () {
 
 	functionNode.remove();
 	templateNode.remove();
+});
+
+it('should return fragment if requested', function () {
+	/* eslint-disable prettier/prettier */
+	const functionNode = function_(`
+		<div class="becky" data-cali="elvis">${'gizmo'}</div>
+		<div class="baxter" data-chico="archie">${'otis'}</div>
+	`, true);
+	const templateNode = fragment`
+		<div class="becky" data-cali="elvis">${'gizmo'}</div>
+		<div class="baxter" data-chico="archie">${'otis'}</div>
+	`;
+	/* eslint-enable */
+
+	const selector = 'div.baxter[data-chico="archie"]';
+	const content = 'otis';
+
+	assert.ok(
+		functionNode instanceof DocumentFragment,
+		'Not an instance of DocumentFragment'
+	);
+	assert.ok(
+		templateNode instanceof DocumentFragment,
+		'Not an instance of DocumentFragment'
+	);
+
+	assert.ok(
+		functionNode.children[1].matches(selector),
+		`Last element doesn’t match selector ${selector}`
+	);
+	assert.equal(
+		functionNode.children[1].textContent.trim(),
+		content,
+		`Last element doesn’t have content "${content}"`
+	);
+
+	assert.ok(
+		templateNode.children[1].matches(selector),
+		`Last element doesn’t match selector ${selector}`
+	);
+	assert.equal(
+		templateNode.children[1].textContent.trim(),
+		content,
+		`Last element doesn’t have content "${content}"`
+	);
+
+	[].slice.call(functionNode.children).forEach((element) => {
+		element.remove();
+	});
+	[].slice.call(templateNode.children).forEach((element) => {
+		element.remove();
+	});
 });

@@ -10,7 +10,7 @@
  *
  * @returns {string}
  */
-function html(literals, ...substs) {
+function htmlTemplate(literals, ...substs) {
 	const raws = [...literals.raw];
 	const rawsLength = raws.length;
 	raws[0] = raws[0];
@@ -26,15 +26,21 @@ function html(literals, ...substs) {
 
 /**
  * @param  {string} string
+ * @param  {boolean} outputFragment
  *
  * @returns {ElementFromString}
  * @throws {Error}
  */
-function createDomElement(string) {
+function createDomElement(string, outputFragment = false) {
 	let element = document.createElement('template');
 
 	element.innerHTML = string;
 	const output = element.content;
+
+	// If fragment is requested
+	if (outputFragment) {
+		return output;
+	}
 
 	// If only text is passed
 	if (output.children.length === 0) {
@@ -53,19 +59,30 @@ function createDomElement(string) {
  *
  * @returns {ElementFromString}
  */
-function template(...templateArguments) {
-	const string = html(...templateArguments);
+function html(...templateArguments) {
+	const string = htmlTemplate(...templateArguments);
 	return createDomElement(string);
 }
 
 /**
- * @param  {string} rawString
+ * @param  {Array} templateArguments
  *
  * @returns {ElementFromString}
  */
-export default (rawString) => {
+function fragment(...templateArguments) {
+	const string = htmlTemplate(...templateArguments);
+	return createDomElement(string, true);
+}
+
+/**
+ * @param  {string} rawString
+ * @param  {boolean} outputFragment
+ *
+ * @returns {ElementFromString}
+ */
+export default (rawString, outputFragment) => {
 	const string = rawString;
-	return createDomElement(string);
+	return createDomElement(string, outputFragment);
 };
 
-export { template as html };
+export { html, fragment };

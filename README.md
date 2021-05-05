@@ -3,13 +3,14 @@
 [![Build Status][ci-img]][ci]
 [![BrowserStack Status][browserstack-img]][browserstack]
 
-Create DOM element from string.
+Create DOM element or `DocumentFragment` from string.
 
 Features:
 
 -   Function or tagged template literal implementation
 -   Handles elements which need specific parent element (e.g. `td` needs `table`
     element)
+-   Returns fragment with multiple elements if requested
 
 ## Install
 
@@ -20,10 +21,11 @@ npm install domelo --save
 ## Usage
 
 ```js
-import domelo, { html } from 'domelo';
+import domelo, { html, fragment } from 'domelo';
 
 const div = domelo('<div id="becky" data-rocco="sammy">zoe</div>'); // Returns div element
 const span = html` <p id="harley"><b class="misty">chester</b></p> `; // Returns p element
+const list = fragment` <li id="gus"><b class="walter">charlie</b></li><li id="blue"><b class="sydney">teddy</b></li>`; // Returns fragment with 2 list elements
 ```
 
 Tagged template implementation is here so you can easily make
@@ -32,20 +34,30 @@ Tagged template implementation is here so you can easily make
 [editor](https://github.com/atom/language-javascript/pull/282) syntax higlight
 strings inside `html` template function as HTML markup.
 
+Fragment tagged template function is used to return `DocumentFragment`, which is
+useful if you want to return multiple elements.
+
 ## API
 
-### domelo(string)
+### domelo(string, outputFragment)
 
-Returns: `(HTMLElement|Text)`
+Returns: `(HTMLElement|Text|DocumentFragment)`
 
-Creates DOM element from string. Returns `Node` which can be `HTMLElement` or
-`Text`.
+Creates DOM element from string. Returns `Node` which can be `HTMLElement`,
+`Text` or `DocumentFragment`.
 
 #### string
 
 Type: `string`
 
 HTML string to convert to DOM element.
+
+#### outputFragment
+
+Type: `boolean`
+
+Should function return `DocumentFragment` or not. Useful if you want to return
+multiple elements.
 
 ## FAQ
 
