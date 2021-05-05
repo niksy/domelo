@@ -3,14 +3,14 @@
 [![Build Status][ci-img]][ci]
 [![BrowserStack Status][browserstack-img]][browserstack]
 
-Create DOM element or `DocumentFragment` from string.
+Create DOM element from string.
 
 Features:
 
 -   Function or tagged template literal implementation
 -   Handles elements which need specific parent element (e.g. `td` needs `table`
     element)
--   Returns fragment with multiple elements if requested
+-   Returns `DocumentFragment` with multiple elements if requested
 
 ## Install
 
@@ -24,8 +24,8 @@ npm install domelo --save
 import domelo, { html, fragment } from 'domelo';
 
 const div = domelo('<div id="becky" data-rocco="sammy">zoe</div>'); // Returns div element
-const span = html` <p id="harley"><b class="misty">chester</b></p> `; // Returns p element
-const list = fragment` <li id="gus"><b class="walter">charlie</b></li><li id="blue"><b class="sydney">teddy</b></li>`; // Returns fragment with 2 list elements
+const span = html`<p id="harley"><b class="misty">chester</b></p>`; // Returns p element
+const list = fragment`<li id="gus"><b class="walter">charlie</b></li><li id="blue"><b class="sydney">teddy</b></li>`; // Returns fragment with 2 list elements
 ```
 
 Tagged template implementation is here so you can easily make
@@ -54,7 +54,8 @@ HTML string to convert to DOM element.
 
 #### outputFragment
 
-Type: `boolean`
+Type: `boolean`  
+Default: `false`
 
 Should function return `DocumentFragment` or not. Useful if you want to return
 multiple elements.
@@ -68,6 +69,8 @@ You need to explictly return string-like value to get proper content shown:
 -   For `HTMLElement` return `outerHTML` property value
 -   For `Text` return `wholeText` property value
 -   Arrays should be joined at least with empty string
+-   Fragments can be handled referencing `children` or `childNodes` property and
+    should be joined at least with empty string
 
 ## Browser support
 
@@ -95,6 +98,6 @@ MIT © [Ivan Nikolić](http://ivannikolic.com)
 [ci]: https://travis-ci.com/niksy/domelo
 [ci-img]: https://travis-ci.com/niksy/domelo.svg?branch=master
 [browserstack]: https://www.browserstack.com/
-[browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=SHQxMmdTOXlCMk9RakpBNVZJbG1QS1lDMFIyVnd0Rk1yUW10NGh4Tjk0bz0tLXJZYkpnZXJtcDI2RlBsK1VIL2JFZEE9PQ==--3f7b9dc5dc910301116ca982eeab24276cbc7d94
+[browserstack-img]: https://www.browserstack.com/automate/badge.svg?badge_key=N0FQVzZDK2JpVW5tRmVzVG9wMmJIR2NjejhPNkNCTk9BSTZIZlpXQ212WT0tLVpvZFlZa0ppWGh4cHNFZm9RR0Z2NVE9PQ==--9705cb64b3cf20a746a007a73c341eccb90a81ea
 
 <!-- prettier-ignore-end -->
