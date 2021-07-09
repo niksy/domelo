@@ -1,22 +1,22 @@
+/* globals TemplateStringsArray */
 /**
- * Element returned when converting string to DOM node.
- *
- * @typedef {(HTMLElement|Text)} ElementFromString
+ * @typedef {string[]} Substitutions
+ */
+/**
+ * @typedef {[literals: TemplateStringsArray, ...substitutions: Substitutions]} TemplateArguments
  */
 
 /**
- * @param  {object} literals
- * @param  {Array} substs
- *
- * @returns {string}
+ * @param {TemplateStringsArray} literals
+ * @param {Substitutions}        substitutions
  */
-function htmlTemplate(literals, ...substs) {
+function htmlTemplate(literals, ...substitutions) {
 	const raws = [...literals.raw];
 	const rawsLength = raws.length;
 	raws[0] = raws[0];
 	raws[rawsLength - 1] = raws[rawsLength - 1];
 	return raws.reduce((accumulator, lit, index) => {
-		let subst = substs[index - 1];
+		let subst = substitutions[index - 1];
 		if (Array.isArray(subst)) {
 			subst = subst.join('');
 		}
@@ -24,48 +24,58 @@ function htmlTemplate(literals, ...substs) {
 	});
 }
 
+const createDomElement =
+	/**
+	 * @type {(
+	 *   ((string: string, outputFragment: true) => DocumentFragment) &
+	 *   ((string: string, outputFragment?: false) => Element | Text) &
+	 *   ((string: string, outputFragment?: boolean) => Element | Text | DocumentFragment)
+	 * )}
+	 */
+	(
+		function (string, outputFragment = false) {
+			let element = document.createElement('template');
+
+			element.innerHTML = string;
+			const output = element.content;
+
+			// If fragment is requested
+			if (outputFragment) {
+				return output;
+			}
+
+			/** @type {Element[]} */
+			const childNodes = [].slice.call(output.childNodes);
+
+			/** @type {Element[]} */
+			const children = [].slice.call(
+				output.children ??
+					childNodes.filter((node) => node instanceof Element)
+			);
+
+			const lastChild =
+				output.lastChild ?? childNodes[childNodes.length - 1] ?? null;
+
+			const firstElementChild =
+				output.firstElementChild ?? children[0] ?? null;
+
+			// If only text is passed
+			if (children.length === 0 && lastChild instanceof Text) {
+				return lastChild;
+			}
+
+			if (children.length > 1) {
+				throw new Error('Only one root element is allowed.');
+			}
+
+			return firstElementChild;
+		}
+	);
+
 /**
- * @param  {string} string
- * @param  {boolean} outputFragment
+ * Creates `Element` or `Text` from string.
  *
- * @returns {ElementFromString}
- * @throws {Error}
- */
-function createDomElement(string, outputFragment = false) {
-	let element = document.createElement('template');
-
-	element.innerHTML = string;
-	const output = element.content;
-
-	// If fragment is requested
-	if (outputFragment) {
-		return output;
-	}
-
-	const childNodes = [].slice.call(output.childNodes);
-
-	const children =
-		output.children ?? childNodes.filter((node) => node instanceof Element);
-	const lastChild =
-		output.lastChild ?? childNodes[childNodes.length - 1] ?? null;
-	const firstElementChild = output.firstElementChild ?? children[0] ?? null;
-
-	// If only text is passed
-	if (children.length === 0) {
-		return lastChild;
-	}
-
-	if (children.length > 1) {
-		throw new Error('Only one root element is allowed.');
-	}
-
-	return firstElementChild;
-}
-
-/**
- * @param  {Array} templateArguments
- *
- * @returns {ElementFromString}
+ * @param {TemplateArguments} templateArguments
  */
 function html(...templateArguments) {
 	const string = htmlTemplate(...templateArguments);
@@ -73,9 +83,9 @@ function html(...templateArguments) {
 }
 
 /**
- * @param  {Array} templateArguments
+ * Creates `DocumentFragment` from string.
  *
- * @returns {ElementFromString}
+ * @param {TemplateArguments} templateArguments
  */
 function fragment(...templateArguments) {
 	const string = htmlTemplate(...templateArguments);
@@ -83,14 +93,13 @@ function fragment(...templateArguments) {
 }
 
 /**
- * @param  {string} rawString
- * @param  {boolean} outputFragment
+ * Creates DOM element from string. Returns `Node` which can be `Element`, `Text` or `DocumentFragment`.
  *
- * @returns {ElementFromString}
+ * @param {string}  string           HTML string to convert to DOM element.
+ * @param {boolean} [outputFragment] Should function return `DocumentFragment` or not. Useful if you want to return multiple elements.
  */
-export default (rawString, outputFragment) => {
-	const string = rawString;
+export default function (string, outputFragment) {
 	return createDomElement(string, outputFragment);
-};
+}
 
 export { html, fragment };

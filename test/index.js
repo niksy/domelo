@@ -19,11 +19,20 @@ it('should return DOM element', function () {
 	const content = 'gizmo';
 
 	assert.ok(
+		functionNode instanceof HTMLDivElement,
+		'Not an instance of HTMLDivElement'
+	);
+	assert.ok(
+		templateNode instanceof HTMLDivElement,
+		'Not an instance of HTMLDivElement'
+	);
+
+	assert.ok(
 		functionNode.matches(selector),
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		functionNode.textContent.trim(),
+		functionNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -33,7 +42,7 @@ it('should return DOM element', function () {
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		templateNode.textContent.trim(),
+		templateNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -52,11 +61,20 @@ it('should return table cell element', function () {
 	const content = 'sassy';
 
 	assert.ok(
+		functionNode instanceof HTMLTableCellElement,
+		'Not an instance of HTMLTableCellElement'
+	);
+	assert.ok(
+		templateNode instanceof HTMLTableCellElement,
+		'Not an instance of HTMLTableCellElement'
+	);
+
+	assert.ok(
 		functionNode.matches(selector),
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		functionNode.textContent.trim(),
+		functionNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -66,7 +84,7 @@ it('should return table cell element', function () {
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		templateNode.textContent.trim(),
+		templateNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -85,11 +103,20 @@ it('should return option element', function () {
 	const content = 'penny';
 
 	assert.ok(
+		functionNode instanceof HTMLOptionElement,
+		'Not an instance of HTMLOptionElement'
+	);
+	assert.ok(
+		templateNode instanceof HTMLOptionElement,
+		'Not an instance of HTMLOptionElement'
+	);
+
+	assert.ok(
 		functionNode.matches(selector),
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		functionNode.textContent.trim(),
+		functionNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -99,7 +126,7 @@ it('should return option element', function () {
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		templateNode.textContent.trim(),
+		templateNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -116,6 +143,15 @@ it('should return DOM element with multiple children DOM elements', function () 
 
 	const selector = 'legend#henry';
 	const content = '<span><b>cash</b></span>';
+
+	assert.ok(
+		functionNode instanceof HTMLLegendElement,
+		'Not an instance of HTMLLegendElement'
+	);
+	assert.ok(
+		templateNode instanceof HTMLLegendElement,
+		'Not an instance of HTMLLegendElement'
+	);
 
 	assert.ok(
 		functionNode.matches(selector),
@@ -149,12 +185,15 @@ it('should return text content as root node', function () {
 
 	const content = 'sydney';
 
+	assert.ok(functionNode instanceof Text, 'Not an instance of Text');
+	assert.ok(templateNode instanceof Text, 'Not an instance of Text');
+
 	assert.ok(
 		functionNode.nodeType === Node.TEXT_NODE,
 		'Element is not text node'
 	);
 	assert.equal(
-		functionNode.textContent.trim(),
+		functionNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -164,7 +203,7 @@ it('should return text content as root node', function () {
 		'Element is not text node'
 	);
 	assert.equal(
-		templateNode.textContent.trim(),
+		templateNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -175,11 +214,11 @@ it('should return text content as root node', function () {
 
 it('should throw if multiple root elements are provided', function () {
 	/* eslint-disable prettier/prettier */
-	const functioNode = () => function_('<div>katie</div><p>athena</p>');
+	const functionNode = () => function_('<div>katie</div><p>athena</p>');
 	const templateNode = () => html`<div>katie</div><p>athena</p>`;
 	/* eslint-enable */
 
-	assert.throws(() => functioNode(), /Only one root element is allowed/);
+	assert.throws(() => functionNode(), /Only one root element is allowed/);
 	assert.throws(() => templateNode(), /Only one root element is allowed/);
 });
 
@@ -197,11 +236,20 @@ it('should return DOM element when using spaces at start and end', function () {
 	const content = 'gizmo';
 
 	assert.ok(
+		functionNode instanceof HTMLDivElement,
+		'Not an instance of HTMLDivElement'
+	);
+	assert.ok(
+		templateNode instanceof HTMLDivElement,
+		'Not an instance of HTMLDivElement'
+	);
+
+	assert.ok(
 		functionNode.matches(selector),
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		functionNode.textContent.trim(),
+		functionNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -211,7 +259,7 @@ it('should return DOM element when using spaces at start and end', function () {
 		`Element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		templateNode.textContent.trim(),
+		templateNode.textContent?.trim(),
 		content,
 		`Element doesn’t have content "${content}"`
 	);
@@ -244,22 +292,30 @@ it('should return fragment if requested', function () {
 		'Not an instance of DocumentFragment'
 	);
 
+	/** @type {Element[]} */
 	const functionNodeChildNodes = [].slice.call(functionNode.childNodes);
+
+	/** @type {Element[]} */
 	const templateNodeChildNodes = [].slice.call(templateNode.childNodes);
 
-	const functionNodeChildren =
+	/** @type {Element[]} */
+	const functionNodeChildren = [].slice.call(
 		functionNode.children ??
-		functionNodeChildNodes.filter((node) => node instanceof Element);
-	const templateNodeChildren =
+			functionNodeChildNodes.filter((node) => node instanceof Element)
+	);
+
+	/** @type {Element[]} */
+	const templateNodeChildren = [].slice.call(
 		templateNode.children ??
-		templateNodeChildNodes.filter((node) => node instanceof Element);
+			templateNodeChildNodes.filter((node) => node instanceof Element)
+	);
 
 	assert.ok(
 		functionNodeChildren[1].matches(selector),
 		`Last element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		functionNodeChildren[1].textContent.trim(),
+		functionNodeChildren[1].textContent?.trim(),
 		content,
 		`Last element doesn’t have content "${content}"`
 	);
@@ -269,15 +325,15 @@ it('should return fragment if requested', function () {
 		`Last element doesn’t match selector ${selector}`
 	);
 	assert.equal(
-		templateNodeChildren[1].textContent.trim(),
+		templateNodeChildren[1].textContent?.trim(),
 		content,
 		`Last element doesn’t have content "${content}"`
 	);
 
-	[].slice.call(functionNodeChildren).forEach((element) => {
+	functionNodeChildren.forEach((element) => {
 		element.remove();
 	});
-	[].slice.call(templateNodeChildren).forEach((element) => {
+	templateNodeChildren.forEach((element) => {
 		element.remove();
 	});
 });

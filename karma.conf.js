@@ -38,37 +38,37 @@ if (local) {
 		},
 		customLaunchers: {
 			'BS-Chrome': {
-				base: 'BrowserStack',
-				browser: 'Chrome',
+				'base': 'BrowserStack',
+				'project': 'domelo',
+				'build': 'Automated (Karma)',
+				'browser': 'Chrome',
 				'browser_version': '72',
-				os: 'Windows',
-				'os_version': '7',
-				project: 'domelo',
-				build: 'Automated (Karma)',
-				name: 'Chrome'
+				'name': 'Chrome',
+				'os': 'Windows',
+				'os_version': '7'
+			},
+			'BS-Edge': {
+				'base': 'BrowserStack',
+				'project': 'domelo',
+				'build': 'Automated (Karma)',
+				'browser': 'Edge',
+				'browser_version': '15',
+				'name': 'Edge',
+				'os': 'Windows',
+				'os_version': '10'
 			},
 			'BS-Firefox': {
-				base: 'BrowserStack',
-				browser: 'Firefox',
+				'base': 'BrowserStack',
+				'project': 'domelo',
+				'build': 'Automated (Karma)',
+				'browser': 'Firefox',
 				'browser_version': '65',
-				os: 'Windows',
-				'os_version': '7',
-				project: 'domelo',
-				build: 'Automated (Karma)',
-				name: 'Firefox'
-			},
-			'BS-Edge15': {
-				base: 'BrowserStack',
-				browser: 'Edge',
-				'browser_version': '15',
-				os: 'Windows',
-				'os_version': '10',
-				project: 'domelo',
-				build: 'Automated (Karma)',
-				name: 'Edge15'
+				'name': 'Firefox',
+				'os': 'Windows',
+				'os_version': '7'
 			}
 		},
-		browsers: ['BS-Chrome', 'BS-Firefox', 'BS-Edge15']
+		browsers: ['BS-Chrome', 'BS-Edge', 'BS-Firefox']
 	};
 }
 
@@ -82,7 +82,7 @@ module.exports = function (baseConfig) {
 			'test/**/*.html': ['html2js'],
 			'test/**/*.js': ['rollup', 'sourcemap']
 		},
-		reporters: ['mocha', 'coverage-istanbul'],
+		reporters: ['mocha', 'coverage'],
 		port: port,
 		colors: true,
 		logLevel: baseConfig.LOG_INFO,
@@ -97,6 +97,9 @@ module.exports = function (baseConfig) {
 		},
 		rollupPreprocessor: {
 			plugins: [
+				istanbul({
+					exclude: ['test/**/*.js', 'node_modules/**/*']
+				}),
 				nodeBuiltins(),
 				babel({
 					exclude: 'node_modules/**',
@@ -114,11 +117,9 @@ module.exports = function (baseConfig) {
 				}),
 				globals(),
 				...rollupConfig.plugins.filter(
-					({ name }) => !['babel'].includes(name)
-				),
-				istanbul({
-					exclude: ['test/**/*.js', 'node_modules/**/*']
-				})
+					({ name }) =>
+						!['babel', 'package-type', 'types'].includes(name)
+				)
 			],
 			output: {
 				format: 'iife',
@@ -127,11 +128,10 @@ module.exports = function (baseConfig) {
 				intro: 'window.TYPED_ARRAY_SUPPORT = false;' // IE9
 			}
 		},
-		coverageIstanbulReporter: {
-			dir: path.join(__dirname, 'coverage/%browser%'),
-			fixWebpackSourcePaths: true,
-			reports: ['html', 'text'],
-			thresholds: {
+		coverageReporter: {
+			dir: path.join(__dirname, 'coverage'),
+			reporters: [{ type: 'html' }, { type: 'text' }],
+			check: {
 				global: JSON.parse(
 					fs.readFileSync(path.join(__dirname, '.nycrc'), 'utf8')
 				)

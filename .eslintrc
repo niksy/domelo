@@ -2,6 +2,7 @@
 	"root": true,
 	"extends": [
 		"eslint-config-niksy",
+		"eslint-config-niksy/typescript",
 		"eslint-config-niksy/next",
 		"eslint-config-niksy/browser",
 		"eslint-config-prettier"
@@ -16,6 +17,9 @@
 			"env": {
 				"node": true,
 				"es6": true
+			},
+			"parserOptions": {
+				"sourceType": "script"
 			},
 			"plugins": ["eslint-plugin-unicorn"],
 			"rules": {

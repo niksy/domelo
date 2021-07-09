@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Added
+
+-   Typings for TypeScript
+
 ## [2.0.0][] - 2021-05-05
 
 ### Added
