@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [2.1.0][] - 2021-07-20
+
 ### Added
 
 -   Typings for TypeScript
@@ -51,3 +53,5 @@
 
 [unreleased]: https://github.com/niksy/domelo/compare/v2.0.0...HEAD
 [2.0.0]: https://github.com/niksy/domelo/tree/v2.0.0
+[unreleased]: https://github.com/niksy/domelo/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/niksy/domelo/tree/v2.1.0
